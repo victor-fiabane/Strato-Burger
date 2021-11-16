@@ -1,0 +1,57 @@
+create database StratoBurger;
+use StratoBurger;
+create table produto( 
+codigoProd int not null auto_increment primary key,
+nomeProd varchar(60) not null,
+descricaoProd varchar(100) not null,
+valorProd decimal(50) not null
+);
+create table cliente(
+codigoCli int not null auto_increment primary key,
+nomeCli varchar(60) not null,
+telefoneCli varchar(20) not null,
+emailCli varchar(50)
+);
+create table ped(
+codigoPed int not null auto_increment primary key,
+valUni decimal(50) not null,
+valTot decimal(50) not null,
+quantPed int not null,
+codigoCli int,
+foreign key(codigoCli) references cliente (codigoCli),
+codigoEnt int,
+foreign key(codigoEnt) references entregador (codigoEnt),
+idBairro int,
+foreign key(idBairro) references bairro (idBairro)
+);
+create table entregador(
+codigoEnt int not null auto_increment primary key,
+nomeEnt varchar(60) not null,
+motoEnt varchar(40)
+);
+create table tpProd(
+codigoTiprod int not null auto_increment primary key,
+burgersTP varchar(40),
+combosTP varchar(40),
+bebidasTP varchar(40),
+adicionaisTP varchar(40)
+);
+create table bairro(
+idBairro int not null auto_increment primary key,
+ruas varchar(60) not null,
+taxaBairro decimal(40)
+);
+create table temsolicitado(
+codigoPed int,
+foreign key(codigoPed) references ped (codigoPed),
+codigoProd int,
+foreign key(codigoProd) references produto (codigoProd)
+);
+create table designado(
+codigoTiprod int,
+foreign key(codigoTiprod) references tpProd (codigoTiprod),
+codigoProd int,
+foreign key(codigoProd) references produto (codigoProd)
+);
+alter table ped add foreign key(codigoEnt) references entregador (codigoEnt);
+alter table ped add foreign key(idBairro) references bairro (idBairro);
